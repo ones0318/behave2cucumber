@@ -30,11 +30,9 @@ def convert(json_file, remove_background=False, duration_format=False, deduplica
                                 item['tags']]
             if json_nodes[index] == 'steps':
                 if 'result' in item:
-                    # Because several problems with long error messages the message sub-stringed to maximum 2000 chars.
                     if 'error_message' in item["result"]:
                         error_msg = item["result"].pop('error_message')
-                        item["result"]["error_message"] = str(
-                            (str(error_msg).replace("\"", "").replace("\\'", ""))[:2000])
+                        item["result"]["error_message"] = '\n'.join(error_msg)
                     if 'duration' in item["result"] and duration_format:
                         item["result"]["duration"] = int(item["result"]["duration"] * 1000000000)
                 else:
